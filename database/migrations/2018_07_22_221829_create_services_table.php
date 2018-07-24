@@ -19,7 +19,6 @@ class CreateServicesTable extends Migration
             $table->char('letter', 5)->unique();
             $table->string('code', 16)->unique();
             $table->string('confirmation_message', 459);
-            $table->boolean('mandatory')->default(false);
 
             $table->timestamps();
         });

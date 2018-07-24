@@ -10,12 +10,8 @@ class Service extends Model
         'letter',
         'code',
         'confirmation_message',
-        'mandatory',
     ];
 
-    protected $casts = [
-        'mandatory' => 'boolean',
-    ];
 
     public function subscribers()
     {
@@ -30,11 +26,6 @@ class Service extends Model
     public function scopeLetter($query, $letter)
     {
         return $query->where('letter', $letter);
-    }
-
-    public function scopeMandatory($query, $mandatory)
-    {
-        return $query->where('mandatory', $mandatory);
     }
 
 }

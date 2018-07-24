@@ -7,6 +7,5 @@ $factory->define(Vas\Service::class, function (Faker $faker) {
         'letter' => $faker->randomLetter,
         'code' => $faker->word,
         'confirmation_message' => $faker->paragraph,
-        'mandatory' => $faker->boolean,
     ];
 });
