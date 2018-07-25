@@ -16,7 +16,6 @@ class CreateSentMessagesTable extends Migration
         Schema::create('sent_messages', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('message_id')->index();
             $table->unsignedInteger('service_id')->nullable();
             $table->string('address', 8);
             $table->string('message', 1024);
