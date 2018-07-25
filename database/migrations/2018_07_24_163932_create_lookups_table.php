@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReceivedMessagesTable extends Migration
+class CreateLookupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateReceivedMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('received_messages', function (Blueprint $table) {
+        Schema::create('lookups', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('address', 8);
-            $table->string('message', 1024)->default('');
+            $table->string('key');
+            $table->text('value');
 
             $table->timestamps();
         });
@@ -30,6 +30,6 @@ class CreateReceivedMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('received_messages');
+        Schema::dropIfExists('lookups');
     }
 }

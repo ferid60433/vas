@@ -4,6 +4,7 @@ namespace Vas;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Subscriber extends Model
 {
@@ -25,4 +26,15 @@ class Subscriber extends Model
     {
         return $this->belongsTo(Service::class);
     }
+
+    public function getFullAddressAttribute($address)
+    {
+        return '2519'.$address;
+    }
+
+    public function setAddressAttribute($address)
+    {
+        $this->attributes['address'] = Str::substr(trim($address), -8);
+    }
+
 }

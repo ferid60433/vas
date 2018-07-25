@@ -160,6 +160,7 @@ return [
         Vas\Providers\EventServiceProvider::class,
         Vas\Providers\RouteServiceProvider::class,
 
+        Vas\Providers\ProcessorServiceProvider::class,
     ],
 
     /*
