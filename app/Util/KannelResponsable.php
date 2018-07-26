@@ -32,10 +32,10 @@ class KannelResponsable implements Responsable
             ->header('X-Kannel-DLR-Url', $this->generateDlrUrl());
 
         if ($this->isMessageUnicode()) {
-            $r->header('Content-Type', 'text/html; charset=UTF-8');
+            $r->header('Content-Type', 'text/plain; charset=UTF-8');
             $r->header('X-Kannel-Coding', '2');
         } else {
-            $r->header('Content-Type', 'text/html; charset=ISO-8859-1');
+            $r->header('Content-Type', 'text/plain; charset=ISO-8859-1');
         }
 
         return $r;
@@ -53,7 +53,12 @@ class KannelResponsable implements Responsable
 
     protected function isMessageUnicode(): bool
     {
-        return !GsmEncoding::is_gsm0338($this->message);
+        return !$this->isMessageAsciish();
+    }
+
+    protected function isMessageAsciish(): bool
+    {
+        return GsmEncoding::isGsm0338($this->message);
     }
 
 }

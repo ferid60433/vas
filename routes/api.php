@@ -13,6 +13,6 @@
 
 Route::prefix('kannel')->group(function () {
     Route::post('received', 'KannelController@received');
-    Route::post('delivered', 'KannelController@delivered')
+    Route::get('delivered', 'KannelController@delivered')
         ->name('kannel.delivered');
 });

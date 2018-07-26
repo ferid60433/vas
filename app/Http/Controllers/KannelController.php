@@ -2,9 +2,10 @@
 
 namespace Vas\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Vas\Http\Requests\KannelDeliveredRequest;
 use Vas\Http\Requests\KannelReceivedRequest;
 use Vas\Processors\Processor;
+use Vas\SentMessage;
 use Vas\Util\KannelResponsable;
 
 class KannelController extends Controller
@@ -30,9 +31,13 @@ class KannelController extends Controller
         return new KannelResponsable($sentMessage);
     }
 
-    public function delivered(Request $request)
+    public function delivered(KannelDeliveredRequest $request)
     {
-        // TODO: delivered
+        $sentMessage = SentMessage::find((int)$request->get('id'));
+        $sentMessage->delivery_status = (int)$request->get('status');
+        $sentMessage->save();
+
+        return response('nice');
     }
 
 }

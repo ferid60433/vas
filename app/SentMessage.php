@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
  * @property int id
  * @property string address
  * @property string message
- * @property string delivery_status
+ * @property int delivery_status
  */
 class SentMessage extends Model
 {
