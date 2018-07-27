@@ -25,9 +25,9 @@ class SentMessage extends Model
         return $this->belongsTo(Service::class);
     }
 
-    public function getFullAddressAttribute($address)
+    public function getFullAddressAttribute()
     {
-        return '2519'.$address;
+        return '2519'.$this->address;
     }
 
     public function setAddressAttribute($address)

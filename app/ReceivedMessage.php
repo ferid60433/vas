@@ -12,9 +12,9 @@ class ReceivedMessage extends Model
         'message',
     ];
 
-    public function getFullAddressAttribute($address)
+    public function getFullAddressAttribute()
     {
-        return '2519'.$address;
+        return '2519'.$this->address;
     }
 
     public function setAddressAttribute($address)
