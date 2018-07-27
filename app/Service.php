@@ -6,9 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 /**
- * @property string letter
- * @property string code
- * @property string confirmation_message
+ * Vas\Service
+ *
+ * @property int $id
+ * @property string $letter
+ * @property string $code
+ * @property string $confirmation_message
+ * @property \Carbon\Carbon|null $created_at
+ * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Vas\SentMessage[] $sentMessages
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Vas\Subscriber[] $subscribers
+ * @method static \Illuminate\Database\Eloquent\Builder|\Vas\Service letter($letter)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Vas\Service whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Vas\Service whereConfirmationMessage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Vas\Service whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Vas\Service whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Vas\Service whereLetter($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\Vas\Service whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Service extends Model
 {
