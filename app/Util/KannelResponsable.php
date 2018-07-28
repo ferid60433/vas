@@ -58,7 +58,7 @@ class KannelResponsable implements Responsable
 
     protected function isMessageAsciish(): bool
     {
-        return GsmEncoding::isGsm0338($this->message);
+        return GsmEncoding::isGsm0338($this->message->message);
     }
 
 }
