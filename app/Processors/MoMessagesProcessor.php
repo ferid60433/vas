@@ -14,7 +14,7 @@ class MoMessagesProcessor extends Processor
 
     public function handle(ReceivedMessage $message): string
     {
-        return env('MESSAGE_MO');
+        return lookup('MESSAGE_MO');
     }
 
 }

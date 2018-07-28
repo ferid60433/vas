@@ -17,7 +17,7 @@ class HelpProcessor extends Processor
 
     public function handle(ReceivedMessage $message): string
     {
-        return env('MESSAGE_HELP');
+        return lookup('MESSAGE_HELP');
     }
 
 }

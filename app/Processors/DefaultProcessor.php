@@ -14,7 +14,7 @@ class DefaultProcessor extends Processor
 
     public function handle(ReceivedMessage $message): string
     {
-        return env('MESSAGE_DEFAULT');
+        return lookup('MESSAGE_DEFAULT');
     }
 
 }

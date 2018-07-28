@@ -17,7 +17,7 @@ class EmptyProcessor extends Processor
 
     public function handle(ReceivedMessage $message): string
     {
-        return env('MESSAGE_EMPTY');
+        return lookup('MESSAGE_EMPTY');
     }
 
 }

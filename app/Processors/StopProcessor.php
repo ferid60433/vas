@@ -21,11 +21,11 @@ class StopProcessor extends Processor
         $subs = Subscriber::where('address', $message->address)->get();
 
         if ($subs->count() <= 0) {
-            return env('MESSAGE_NOT_SUBSCRIBED_YET');
+            return lookup('MESSAGE_NOT_SUBSCRIBED_YET');
         } else {
             $subs->first()->delete();
 
-            return env('MESSAGE_STOP');
+            return lookup('MESSAGE_STOP');
         }
     }
 

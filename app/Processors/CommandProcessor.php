@@ -42,7 +42,7 @@ class CommandProcessor extends Processor
             Str::startsWith($fullMessage, '@') &&
 
             // only enabled for Admin/Owner
-            Str::endsWith($message->address, env('OWNER_ADDRESS')) &&
+            Str::endsWith($message->address, lookup('OWNER_ADDRESS')) &&
 
             // Service must be found
             $this->service !== null &&
@@ -55,7 +55,7 @@ class CommandProcessor extends Processor
     {
         // TODO: broadcast messages
 
-        return env('MESSAGE_OWNER_COMMAND');
+        return lookup('MESSAGE_OWNER_COMMAND');
     }
 
 }

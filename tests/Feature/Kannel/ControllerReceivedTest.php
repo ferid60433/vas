@@ -5,6 +5,7 @@ namespace Tests\Feature\Kannel;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Vas\Lookup;
 use Vas\Service;
 
 class ControllerReceivedTest extends TestCase
@@ -69,7 +70,7 @@ class ControllerReceivedTest extends TestCase
     public function testGenericMessage($message, $messageReply, $oldAddress = null)
     {
         $reply = starts_with($messageReply, 'MESSAGE_') ?
-            env($messageReply) : $messageReply;
+            lookup($messageReply) : $messageReply;
 
         $this->address = $address = $oldAddress ??
             $this->faker->randomNumber(8, true);
@@ -110,14 +111,18 @@ class ControllerReceivedTest extends TestCase
         $this->testGenericMessage(
             '@CMD,Test',
             'MESSAGE_OWNER_COMMAND',
-            env('OWNER_ADDRESS'));
+            lookup('OWNER_ADDRESS'));
 
         // TODO: dispatch send job
     }
 
     public function testUnicodeResponse()
     {
-        putenv('MESSAGE_HELP="Yared Negu - Yagute | ያጉቴ - New Ethiopian Music 2017 (Official Video)"');
+        Lookup::updateOrCreate(
+            ['key' => 'MESSAGE_HELP'],
+            ['value' => 'Yared Negu - Yagute | ያጉቴ - New Ethiopian Music 2017 (Official Video)']
+        );
+
         $response = $this->testGenericMessage('Help', 'MESSAGE_HELP');
         $response->assertHeader('X-Kannel-Coding', '2');
         $response->assertHeader('Content-Type', 'text/plain; charset=UTF-8');
