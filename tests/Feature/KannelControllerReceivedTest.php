@@ -63,8 +63,8 @@ class KannelControllerReceivedTest extends TestCase
      * @param $message
      * @param $messageReply
      * @param null $oldAddress
-     *
      * @dataProvider textData
+     * @return \Illuminate\Foundation\Testing\TestResponse
      */
     public function testGenericMessage($message, $messageReply, $oldAddress = null)
     {
@@ -98,6 +98,8 @@ class KannelControllerReceivedTest extends TestCase
             'address' => "{$address}",
             'delivery_status' => 0,
         ]);
+
+        return $response;
     }
 
     public function testOwnerCommandMessage()
@@ -109,5 +111,15 @@ class KannelControllerReceivedTest extends TestCase
             '@CMD,Test',
             'MESSAGE_OWNER_COMMAND',
             env('OWNER_ADDRESS'));
+
+        // TODO: dispatch send job
+    }
+
+    public function testUnicodeResponse()
+    {
+        putenv('MESSAGE_HELP="Yared Negu - Yagute | ያጉቴ - New Ethiopian Music 2017 (Official Video)"');
+        $response = $this->testGenericMessage('Help', 'MESSAGE_HELP');
+        $response->assertHeader('X-Kannel-Coding', '2');
+        $response->assertHeader('Content-Type', 'text/plain; charset=UTF-8');
     }
 }

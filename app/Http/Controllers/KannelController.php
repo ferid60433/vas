@@ -2,28 +2,28 @@
 
 namespace Vas\Http\Controllers;
 
-use Vas\Http\Requests\KannelDeliveredRequest;
-use Vas\Http\Requests\KannelReceivedRequest;
+use Vas\Http\Requests\Kannel;
 use Vas\Processors\Processor;
+use Vas\ReceivedMessage;
 use Vas\SentMessage;
 use Vas\Util\KannelResponsable;
 
 class KannelController extends Controller
 {
     /**
-     * @param KannelReceivedRequest $request
+     * @param Kannel\ReceivedRequest $request
      * @param Processor $processor
      *
      * @return KannelResponsable
      */
-    public function received(KannelReceivedRequest $request, Processor $processor)
+    public function received(Kannel\ReceivedRequest $request, Processor $processor)
     {
-        $receivedMessage = \Vas\ReceivedMessage::create([
+        $receivedMessage = ReceivedMessage::create([
             'address' => $request->get('from'),
             'message' => $request->get('content') ?? '',
         ]);
 
-        $sentMessage = \Vas\SentMessage::create([
+        $sentMessage = SentMessage::create([
             'address' => $request->get('from'),
             'message' => $processor($receivedMessage),
         ]);
@@ -31,7 +31,7 @@ class KannelController extends Controller
         return new KannelResponsable($sentMessage);
     }
 
-    public function delivered(KannelDeliveredRequest $request)
+    public function delivered(Kannel\DeliveredRequest $request)
     {
         $sentMessage = SentMessage::find((int)$request->get('id'));
         $sentMessage->delivery_status = (int)$request->get('status');
