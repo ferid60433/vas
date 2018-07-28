@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Kannel;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Vas\Service;
 
-class KannelControllerReceivedTest extends TestCase
+class ControllerReceivedTest extends TestCase
 {
     use WithFaker, DatabaseTransactions;
 

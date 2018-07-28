@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Kannel;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Log\Logger;
@@ -8,7 +8,7 @@ use Symfony\Component\VarDumper\VarDumper;
 use Tests\TestCase;
 use Vas\SentMessage;
 
-class KannelControllerDeliveredTest extends TestCase
+class ControllerDeliveredTest extends TestCase
 {
     use DatabaseTransactions;
 
