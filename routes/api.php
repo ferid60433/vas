@@ -16,3 +16,7 @@ Route::prefix('kannel')->group(function () {
     Route::get('delivered', 'KannelController@delivered')
         ->name('kannel.delivered');
 });
+
+Route::resource('service', 'ServiceController', ['except' => ['create', 'edit']]);
+Route::resource('inbox', 'InboxController', ['only' => ['index', 'show']]);
+Route::resource('outbox', 'OutboxController', ['only' => ['index', 'show']]);

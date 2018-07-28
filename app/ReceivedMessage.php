@@ -28,6 +28,8 @@ class ReceivedMessage extends Model
         'message',
     ];
 
+    protected $appends = ['full_address'];
+
     public function getFullAddressAttribute()
     {
         return '2519'.$this->address;

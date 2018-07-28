@@ -35,6 +35,8 @@ class SentMessage extends Model
         'delivery_status',
     ];
 
+    protected $appends = ['full_address'];
+
     public function service()
     {
         return $this->belongsTo(Service::class);
