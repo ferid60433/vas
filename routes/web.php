@@ -11,6 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+use Vas\Service;
+
+Route::view('/', 'dashboard');
+
+Route::view('compose', 'compose');
+Route::view('services', 'services.index');
+Route::view('inbox', 'inbox');
+Route::view('outbox', 'outbox');
+Route::view('subscribers', 'subscribers');
+Route::view('settings', 'settings');
+
+Route::get('services/{service}', function (Service $service) {
+    return view('services.show', compact('service'));
 });
