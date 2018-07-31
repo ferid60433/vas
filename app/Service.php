@@ -40,11 +40,9 @@ class Service extends Model
 
     public static function lookupService(string $message): ?Service
     {
-        $services = Service::all()->filter(function (Service $service) use ($message) {
-            return Str::startsWith($message, $service->letter);
-        });
+        $letter = explode(',', $message, 2)[0];
 
-        return $services->count() === 1 ? $services->first() : null;
+        return Service::whereLetter($letter)->first();
     }
 
     public function subscribers()
