@@ -33,8 +33,7 @@
           <td><small>{{ $lookup->value }}</small></td>
           <td class="white-space-nowrap">
               <div class="m-2">
-                <a href="{{ url('settings/'.$lookup->id) }}" type="button" class="btn btn-outline-success">View</a>
-                <a href="#" type="button" class="btn btn-outline-danger">Delete</a>
+                <a href="{{ url('settings/'.$lookup->id.'/edit') }}" type="button" class="btn btn-outline-success">Update</a>
               </div>
           </td>
         </tr>

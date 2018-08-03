@@ -21,16 +21,21 @@ class KannelSendMessageJob implements ShouldQueue
     /** @var Collection */
     protected $addresses;
 
+    /** @var bool */
+    private $promotion;
+
     /**
      * Create a new job instance.
      *
      * @param string $message
      * @param Collection $addresses
+     * @param bool $promotion
      */
-    public function __construct(string $message, Collection $addresses)
+    public function __construct(string $message, Collection $addresses, $promotion = false)
     {
         $this->message = $message;
         $this->addresses = $addresses;
+        $this->promotion = $promotion;
     }
 
     /**
@@ -71,7 +76,7 @@ class KannelSendMessageJob implements ShouldQueue
         $query = [
             'user' => env('KANNEL_USER'),
             'password' => env('KANNEL_PASSWORD'),
-            'from' => env('MO'),
+            'from' => $this->promotion ? env('MO') : env('MT'),
             'text' => $this->message,
             'smsc' => 'mtSmsc',
             'mClass' => '1',

@@ -27,6 +27,31 @@
         @include('layout._nav')
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+          @if (session()->has('success'))
+            <div class="alert alert-success">
+      	      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              {{ session('success') }}
+            </div>
+          @endif
+
+          @if (session()->has('danger'))
+            <div class="alert alert-danger">
+      	      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              {{ session('danger') }}
+            </div>
+          @endif
+
+          @if ($errors->any())
+            <div class="alert alert-warning">
+      	      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <ul>
+                @foreach($errors->all() as $error)
+                  <li>{{ $error }}</li>
+                @endforeach
+              </ul>
+            </div>
+          @endif
+
           @yield('content')
         </main>
       </div>

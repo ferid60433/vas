@@ -25,7 +25,7 @@
         </tr>
       </thead>
       <tbody>
-        <?php $inbox = Vas\ReceivedMessage::paginate(); ?>
+        <?php $inbox = Vas\ReceivedMessage::latest()->paginate(); ?>
 
         @foreach($inbox as $message)
         <tr>
@@ -35,7 +35,7 @@
           <td class="white-space-nowrap">{{ $message->created_at->diffForHumans() }}</td>
           <td class="white-space-nowrap">
               <div class="m-2">
-                <a href="#" type="button" class="btn btn-outline-danger">Delete</a>
+                <a href="{{ url('inbox/'.$message->id) }}" type="button" class="btn btn-outline-danger">Delete</a>
               </div>
           </td>
         </tr>

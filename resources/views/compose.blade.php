@@ -4,7 +4,9 @@
   <h1 class="h2">Compose Message</h1>
 </div>
 <div class="col-sm-6">
-  <form lpformnum="2" action="{{ url('api/service/doesn\t/exist') }}" method="POST">
+  <form lpformnum="2" method="POST">
+    @csrf
+
     <div class="form-group row">
       <label for="services[]" class="col-sm-2 form-control-label">Services</label>
       <div class="col-sm-10">
@@ -29,7 +31,7 @@
       <label for="isPromo" class="col-sm-2 form-control-label">Promotion</label>
       <div class="col-sm-10">
         <div class="form-check">
-          <input name="isPromo" class="form-check-input" type="checkbox" value="off">
+          <input name="isPromo" class="form-check-input" type="checkbox" value="1">
         </div>
       </div>
     </div>

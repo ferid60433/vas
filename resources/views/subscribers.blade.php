@@ -30,17 +30,21 @@
         </tr>
       </thead>
       <tbody>
-        <?php $subscribers = Vas\Subscriber::with('service')->paginate(); ?>
+        <?php $subscribers = Vas\Subscriber::with('service')->latest()->paginate(); ?>
 
         @foreach($subscribers as $subscriber)
         <tr>
           <td>{{ $subscriber->id }}</td>
           <td><code class="white-space-nowrap">+{{ $subscriber->full_address }}</code></td>
-          <td><code class="white-space-nowrap">+{{ $subscriber->service->code }}</code></td>
+          <td>
+            <span class="badge badde badge-primary white-space-nowrap">
+              {{ $subscriber->service->code }}
+            </span>
+          </td>
           <td class="white-space-nowrap">{{ $subscriber->created_at->diffForHumans() }}</td>
           <td class="white-space-nowrap">
               <div class="m-2">
-                <a href="#" type="button" class="btn btn-outline-danger">Delete</a>
+                <a href="{{ url('subscribers/'.$subscriber->id) }}" type="button" class="btn btn-outline-danger">Delete</a>
               </div>
           </td>
         </tr>

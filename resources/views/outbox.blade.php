@@ -25,7 +25,7 @@
         </tr>
       </thead>
       <tbody>
-        <?php $outbox = Vas\SentMessage::paginate(); ?>
+        <?php $outbox = Vas\SentMessage::latest()->paginate(); ?>
 
         @foreach($outbox as $message)
             <tr class="{{ $message->delivery_status === 1? 'table-success' : '' }}">
@@ -40,7 +40,7 @@
           <td class="white-space-nowrap">{{ $message->created_at->diffForHumans() }}</td>
           <td class="white-space-nowrap">
               <div class="m-2">
-                <a href="#" type="button" class="btn btn-outline-danger">Delete</a>
+                <a href="{{ url('outbox/'.$message->id) }}" type="button" class="btn btn-outline-danger">Delete</a>
               </div>
           </td>
         </tr>
