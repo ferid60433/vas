@@ -1,7 +1,8 @@
 <?php
 
-namespace Vas\Http\Controllers;
+namespace Vas\Http\Controllers\Api;
 
+use Vas\Http\Controllers\Controller;
 use Vas\ReceivedMessage;
 use Vas\SentMessage;
 

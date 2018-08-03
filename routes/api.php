@@ -12,8 +12,8 @@
 */
 
 Route::prefix('kannel')->group(function () {
-    Route::post('received', 'KannelController@received');
-    Route::get('delivered', 'KannelController@delivered')
+    Route::post('received', 'Api\\KannelController@received');
+    Route::get('delivered', 'Api\\KannelController@delivered')
         ->name('kannel.delivered');
 });
 
