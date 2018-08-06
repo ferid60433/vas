@@ -13,7 +13,7 @@
   <h1 class="h2">Subscriber</h1>
   <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-            <button class="btn btn-lg btn-outline-primary">Import</button>
+            <a href="{{ url('subscribers/import') }}" class="btn btn-lg btn-outline-primary">Import</a>
         </div>
     </div>
 </div>

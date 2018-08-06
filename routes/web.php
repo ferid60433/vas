@@ -31,6 +31,7 @@ Route::any('services/{service}', function (Vas\Service $service) {
     }
 
     $service->delete();
+
     return redirect()->to('services')->with('success', 'Service deleted successfully!');
 });
 
@@ -50,11 +51,16 @@ Route::any('outbox/{outbox}', function (Vas\SentMessage $outbox) {
 });
 
 Route::view('subscribers', 'subscribers');
+Route::view('subscribers/import', 'import');
+
+Route::post('subscribers/import', 'SubscribersImportController');
+
 Route::any('subscribers/{subscriber}', function (Vas\Subscriber $subscriber) {
     $subscriber->delete();
 
     return redirect()->back()->with('success', 'Successfully deleted!');
 });
+
 
 Route::view('settings', 'settings');
 Route::view('settings/{setting}/edit', 'settings-update');
