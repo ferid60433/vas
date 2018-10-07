@@ -20,12 +20,23 @@ Route::view('compose', 'compose');
 Route::post('compose', 'ComposeMessageController');
 Route::view('services', 'services.index');
 Route::view('services/create', 'services.create');
+Route::get('services/{service}/edit', function (Vas\Service $service) {
+    return view('services.edit', compact('service'));
+});
+
+Route::post('services/{service}', function (Vas\Service $service, Request $request) {
+    $service->update($request->only('code', 'letter', 'confirmation_message'));
+
+    return redirect()->to('services')->with('success', 'Service updated successfully!');
+});
+
+
 Route::post('services', function (Vas\Http\Requests\ServiceStoreRequest $request) {
     Vas\Service::create($request->all());
 
     return redirect()->to('services')->with('success', 'Service registered successfully!');
 });
-Route::any('services/{service}', function (Vas\Service $service) {
+Route::any('services/{service}/delete', function (Vas\Service $service) {
     if ($service->subscribers()->count() > 0) {
         return redirect()->to('services')->with('danger', 'Unable to delete service with a subscriber!');
     }

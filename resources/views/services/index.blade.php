@@ -36,8 +36,8 @@
           <td><code>{{ $service->subscribers()->count() }}</code></td>
           <td>
               <div class="m-2 white-space-nowrap">
-                {{--<a href="{{ url('services/'.$service->id) }}" type="button" class="btn btn-outline-success">View</a>--}}
-                <a href="{{ url('services/'.$service->id) }}" type="button" class="btn btn-outline-danger">Delete</a>
+                <a href="{{ url('services/'.$service->id).'/edit' }}" type="button" class="btn btn-outline-success">Update</a>
+                <a href="{{ url('services/'.$service->id).'/delete' }}" type="button" class="btn btn-outline-danger">Delete</a>
               </div>
           </td>
         </tr>

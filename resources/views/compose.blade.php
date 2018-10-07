@@ -1,4 +1,5 @@
 @extends('layout.app')
+
 @section('content')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
   <h1 class="h2">Compose Message</h1>
@@ -20,11 +21,10 @@
         @endforeach
       </div>
     </div>
-    <div class="form-group row">
+    <div id="app" class="form-group row">
       <label for="message" class="col-sm-2 form-control-label">Message</label>
       <div class="col-sm-10">
-        <textarea name="message" class="form-control"
-        placeholder="The message to sent to the client"></textarea>
+        <message-textarea name="message"></message-textarea>
       </div>
     </div>
     <div class="form-group row">
