@@ -17,6 +17,6 @@ Route::prefix('kannel')->group(function () {
         ->name('kannel.delivered');
 });
 
-Route::resource('service', 'ServiceController', ['except' => ['create', 'edit']]);
-Route::resource('inbox', 'InboxController', ['only' => ['index', 'show']]);
-Route::resource('outbox', 'OutboxController', ['only' => ['index', 'show']]);
+Route::resource('service', 'Api\\ServiceController', ['except' => ['create', 'edit']]);
+Route::resource('inbox', 'Api\\InboxController', ['only' => ['index', 'show']]);
+Route::resource('outbox', 'Api\\OutboxController', ['only' => ['index', 'show']]);

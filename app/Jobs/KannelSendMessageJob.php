@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Vas\Util\GsmEncoding;
 
 class KannelSendMessageJob implements ShouldQueue
@@ -55,15 +56,12 @@ class KannelSendMessageJob implements ShouldQueue
             ]);
 
             $instance = [
-                'to' => $sentMessage->full_address,
-                'dlr-url' => urlencode(urldecode(route('kannel.delivered', [
-                    'id' => $sentMessage->id,
-                    'status' => '%d',
-                ]))),
+                'to'      => $sentMessage->full_address,
+                'dlr-url' => trim(env('APP_URL'), '/') . "/api/kannel/delivered?id={$sentMessage->id}&status=PERCENT_D",
             ];
 
-            $client->get('http://localhost:13013/cgi-bin/sendsms', [
-                'query' => urldecode(http_build_query($defaults + $instance)),
+            $client->get('http://' . env('KANNEL_HOST') . ':13013/cgi-bin/sendsms', [
+                'query' => Str::replaceLast('PERCENT_D', '%d', http_build_query($defaults + $instance)),
             ]);
         });
     }
@@ -78,15 +76,18 @@ class KannelSendMessageJob implements ShouldQueue
             'password' => env('KANNEL_PASSWORD'),
             'from' => $this->promotion ? env('MO') : env('MT'),
             'text' => $this->message,
-            'smsc' => 'mtSmsc',
+            'smsc' => 'smsc',
             'mClass' => '1',
             'dlr-mask' => 3,
+            'coding' => '1',
         ];
 
         if ($this->isUnicode()) {
             $query['charset'] = 'UTF-8';
             $query['coding'] = '2';
         }
+
+
 
         return $query;
     }

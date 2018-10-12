@@ -31,7 +31,13 @@
         <tr>
           <td>{{ $message->id }}</td>
           <td><code class="white-space-nowrap">+{{ $message->full_address }}</code></td>
-          <td><small>{{ $message->message }}</small></td>
+          <td>
+            <small>
+              {{ $message->message }}
+              "{{ iconv('UTF-8', 'UTF-16', $message->$message) }}"
+              "{{ implode(unpack("H*", $message->message)) }}"
+            </small>
+          </td>
           <td class="white-space-nowrap">{{ $message->created_at->diffForHumans() }}</td>
           <td class="white-space-nowrap">
               <div class="m-2">

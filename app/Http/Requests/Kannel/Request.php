@@ -33,6 +33,7 @@ class Request extends FormRequest
             'this' => $this,
             'validator' => $validator,
             'request' => $this->all(),
+            'message' => $validator->errors(),
         ]);
 
         abort(Response::HTTP_NOT_ACCEPTABLE);

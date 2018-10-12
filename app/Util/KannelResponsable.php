@@ -26,7 +26,7 @@ class KannelResponsable implements Responsable
     public function toResponse($request)
     {
         $r = \response($this->message->message)
-            ->header('X-Kannel-SMSC', 'mtSmsc')
+            ->header('X-Kannel-SMSC', 'smsc')
             ->header('X-Kannel-From', env('MO'))
             ->header('X-Kannel-DLR-Mask', '3')
             ->header('X-Kannel-DLR-Url', $this->generateDlrUrl());
@@ -43,12 +43,7 @@ class KannelResponsable implements Responsable
 
     protected function generateDlrUrl(): string
     {
-        $dlrUrl = route('kannel.delivered', [
-            'id' => $this->message->id,
-            'status' => '%d',
-        ]);
-
-        return urldecode($dlrUrl);
+        return trim(env('APP_URL'), '/') . "/api/kannel/delivered?id={$this->message->id}&status=%d";
     }
 
     protected function isMessageUnicode(): bool

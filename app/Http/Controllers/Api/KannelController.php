@@ -2,6 +2,7 @@
 
 namespace Vas\Http\Controllers\Api;
 
+use Psr\Log\LoggerInterface;
 use Vas\Http\Controllers\Controller;
 use Vas\Http\Requests\Kannel;
 use Vas\Processors\Processor;
@@ -17,8 +18,10 @@ class KannelController extends Controller
      *
      * @return KannelResponsable
      */
-    public function received(Kannel\ReceivedRequest $request, Processor $processor)
+    public function received(Kannel\ReceivedRequest $request, Processor $processor, LoggerInterface $logger)
     {
+        $logger->critical('charset', $request->all());
+
         $receivedMessage = ReceivedMessage::create([
             'address' => $request->get('from'),
             'message' => $request->get('content') ?? '',
