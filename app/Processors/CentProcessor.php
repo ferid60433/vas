@@ -5,6 +5,7 @@ namespace Vas\Processors;
 use GuzzleHttp\Client;
 use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Input;
+use Vas\Cent;
 use Vas\ReceivedMessage;
 
 class CentProcessor extends Processor
@@ -37,19 +38,24 @@ class CentProcessor extends Processor
             'moReference' => Input::get('messageId'),
             'serviceNumber' => env('MO'),
             'message' => $message->message,
-            'subscriber' => $message->address,
+            'subscriber' => '+2519' . $message->address,
             'price' => env('MO_PRICE'),
         ]]);
 
         abort_unless($response->getStatusCode() === 200, $response->getStatusCode(), $response->getReasonPhrase());
 
-        $jason = json_decode($response->getBody());
+        $jason = json_decode($response->getBody(), true);
 
-        if ($jason->message === null) {
+        Cent::create([
+            'received_message_id' => $message->id,
+            'response' => $jason,
+        ]);
+
+        if ($jason['message'] === null) {
             return 'Thanks';
         }
 
-        return (string)$jason->message;
+        return (string)$jason['message'];
     }
 
 }
