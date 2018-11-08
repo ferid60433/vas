@@ -16,6 +16,7 @@ class ProcessorServiceProvider extends ServiceProvider
     {
         $processors = collect([
             \Vas\Processors\StopProcessor::class,
+            \Vas\Processors\CentProcessor::class,
 //            \Vas\Processors\MoMessagesProcessor::class,
             \Vas\Processors\EmptyProcessor::class,
             \Vas\Processors\HelpProcessor::class,
