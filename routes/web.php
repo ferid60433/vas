@@ -81,3 +81,6 @@ Route::any('settings/{setting}', function (Vas\Lookup $setting, Request $request
 
     return redirect()->to('settings')->with('success', 'Successfully updated!');
 });
+
+// report
+Route::get('report', 'ReportController@filter');
