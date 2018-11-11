@@ -13,4 +13,9 @@ class Cent extends Model
         'response' => 'array',
     ];
 
+    public function message()
+    {
+        return $this->belongsTo(ReceivedMessage::class, 'received_message_id', 'id');
+    }
+
 }

@@ -27,7 +27,7 @@ class LookupTableSeeder extends Seeder
             'OWNER_ADDRESS' => '21631393',
 
             'MESSAGE_STOP' => "You have successfully unsubscribed from our service. You will no longer receive any messages from us. Thanks for using our service.\nGood bye",
-            'MESSAGE_HELP' => "Andegna Value Added Service\n\nThanks for getting interested in our service.\nSend:\n - H for Help\n - S for Unsubscribe",
+            'MESSAGE_HELP' => env('APP_NAME') . "\n\nThanks for getting interested in our service.\nSend:\n - H for Help\n - S for Unsubscribe",
             'MESSAGE_EMPTY' => "You have sent an empty message. Please send 'help' for more detail.",
             'MESSAGE_DEFAULT' => "Sorry but we couldn't understand your message. Please send 'help' for more detail.",
             'MESSAGE_OWNER_COMMAND' => 'Command successful. Message will be broadcasted to the subscribers.',

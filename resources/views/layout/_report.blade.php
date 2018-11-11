@@ -1,13 +1,18 @@
 <div>
     @if(isset($result))
-        <h3>{{ $result->count() }} messages</h3>
+
         @if($result instanceof \Illuminate\Database\Eloquent\Collection)
+            <h3>{{ $result->count() }} messages</h3>
             <small>From: <strong>{{ old('from') }}</strong></small> <br />
             <small>To: <strong>{{ old('to') }}</strong></small> <br />
             <small>Service: <strong>{{ $serviceCode }}</strong></small> <br />
             <small>generated at <strong>{{ date(DATE_COOKIE) }}</strong></small>
-            <hr />
+
+        @else
+            <h3>{{ $result->total() }} messages</h3>
         @endif
+
+        <hr/>
 
         <table class="table table-bordered">
             <thead class="thead-light">
@@ -21,11 +26,24 @@
             </thead>
             <tbody>
             @foreach($result as $r)
-                <tr class="{{ $r->delivery_status ? 'table-success':'table-info' }}">
-                    <th scope="row">{{ $r->id }}</th>
-                    <td><code>+2519{{ $r->address }}</code></td>
-                    <td style="width: 50%"><em class="text-muted">{{ $r->message }}</em></td>
-                    <td>{{ $r->delivery_status ? 'Delivered' : 'Pending' }}</td>
+                <tr class="{{ $r->delivery_status ?? true ? 'table-success':'table-info' }}">
+                    <th scope="row">
+                        {{ $r->id }}
+                        @if ($r->response)
+                            <code>[{{ $r->response['transactionId'] }}</code>]
+                        @endif
+                    </th>
+                    <td><code>+2519{{ $r->address ?? $r->message->address }}</code></td>
+                    <td style="width: 50%">
+                        @if ($r->response)
+                            <em class="text-muted">{{ $r->message->message }}</em>
+                            <hr />
+                            <em class="text-muted">{{ $r->response['message'] }}</em>
+                        @else
+                            <em class="text-muted">{{ $r->message }}</em>
+                        @endif
+                    </td>
+                    <td>{{ $r->delivery_status ?? true ? 'Delivered' : 'Pending' }}</td>
                     <td>{!! nl2br(e($r->created_at->format("D, jS Y\nh:i:s a")))  !!}</td>
                 </tr>
             @endforeach

@@ -44,9 +44,15 @@
                         <option value="">No service</option>
 
                         @foreach(\Vas\Service::all() as $service)
-                            <option
-                                {{  old('service', '__________') == $service->id ? 'selected ':'' }}value="{{ $service->id }}">{{ $service->code }}</option>
+                            <option {{  old('service') === $service->id ? 'selected ':'' }}
+                                    value="{{ $service->id }}">
+                                {{ $service->code }}
+                            </option>
                         @endforeach
+
+                        <option {{  old('service') === '__CENT__' ? 'selected ':'' }}
+                                value="__CENT__"> CENT
+                        </option>
                     </select>
                 </div>
             </div>
@@ -55,11 +61,13 @@
                 <label class="col-sm-2 form-control-label"></label>
                 <div class="col-sm-10">
                     <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-filter"></i> Filter</button>
+                        <i class="fa fa-filter"></i> Filter
+                    </button>
 
                     &nbsp; &nbsp; &nbsp;
 
-                    <a class="btn btn-dark" href="{{ \Illuminate\Support\Facades\Request::fullUrlWithQuery(['print'=>true]) }}">
+                    <a class="btn btn-dark"
+                       href="{{ \Illuminate\Support\Facades\Request::fullUrlWithQuery(['print'=>true]) }}">
                         <i class="fa fa-print"></i> Print</a>
                 </div>
             </div>

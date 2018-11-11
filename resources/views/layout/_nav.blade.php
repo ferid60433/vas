@@ -38,6 +38,12 @@
         </a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="{{ url('report') }}">
+          <i class="fa fa-print"></i>
+          Report
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="{{ url('settings') }}">
           <i class="fa fa-cogs"></i>
           Settings

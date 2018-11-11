@@ -19,6 +19,9 @@ class CreateCentsTable extends Migration
             $table->unsignedInteger('received_message_id');
             $table->json('response');
 
+            $table->foreign('received_message_id')->references('id')->on('received_messages')
+                ->onDelete('restrict');
+
             $table->timestamps();
         });
     }
