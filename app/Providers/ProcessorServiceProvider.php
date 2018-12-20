@@ -14,16 +14,25 @@ class ProcessorServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $processors = collect([
-            \Vas\Processors\StopProcessor::class,
-            \Vas\Processors\CentProcessor::class,
+        if (env('UNIQUE_SERVICE')) {
+            $processors = collect([
+                \Vas\Processors\StopProcessor::class,
+                \Vas\Processors\EmptyProcessor::class,
+                \Vas\Processors\HelpProcessor::class,
+                \Vas\Processors\UniqueServiceProcessor::class,
+            ]);
+        } else {
+            $processors = collect([
+                \Vas\Processors\StopProcessor::class,
+                \Vas\Processors\CentProcessor::class,
 //            \Vas\Processors\MoMessagesProcessor::class,
-            \Vas\Processors\EmptyProcessor::class,
-            \Vas\Processors\HelpProcessor::class,
-            \Vas\Processors\SubscriberProcessor::class,
-            \Vas\Processors\CommandProcessor::class,
-            \Vas\Processors\DefaultProcessor::class,
-        ]);
+                \Vas\Processors\EmptyProcessor::class,
+                \Vas\Processors\HelpProcessor::class,
+                \Vas\Processors\SubscriberProcessor::class,
+                \Vas\Processors\CommandProcessor::class,
+                \Vas\Processors\DefaultProcessor::class,
+            ]);
+        }
 
         $head = $processors->reverse()
             ->reduce(function ($last, $processor) {

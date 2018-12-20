@@ -7,14 +7,17 @@
     <meta name="author" content="Andegna Systems PLC">
     <link rel="icon" href="favicon.ico">
     <title>{{ $title or 'Home' }} | Andegna Systems</title>
+    <link rel="stylesheet" href="css/app.css">
     <style>
         th, td {
-            border: black solid 1px;
+            /*border: black solid 1px;*/
         }
     </style>
 </head>
 <body onload="printMe()">
-@include('layout._report')
+<div class="container">
+    @include('layout._report')
+</div>
 <script>
     function printMe() {
         window.print();

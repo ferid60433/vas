@@ -40,7 +40,10 @@ class ReportController extends Controller
 
         $from->setTime(0,0,0);
 
-        if ($service === 'ALL') {
+        if (env('UNIQUE_SERVICE')) {
+            $query = SentMessage::query();
+            $serviceCode = 'All Messages';
+        } else if ($service === 'ALL') {
             $query = SentMessage::query();
             $serviceCode = 'All services';
         } else if ($service === 'NO') {

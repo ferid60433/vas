@@ -3,8 +3,8 @@
 
         @if($result instanceof \Illuminate\Database\Eloquent\Collection)
             <h3>{{ $result->count() }} messages</h3>
-            <small>From: <strong>{{ old('from') }}</strong></small> <br />
-            <small>To: <strong>{{ old('to') }}</strong></small> <br />
+            <small>From: <strong>{{ old('from') ?? date('m/d/Y') }}</strong></small> <br />
+            <small>To: <strong>{{ old('to') ?? date('m/d/Y') }}</strong></small> <br />
             <small>Service: <strong>{{ $serviceCode }}</strong></small> <br />
             <small>generated at <strong>{{ date(DATE_COOKIE) }}</strong></small>
 

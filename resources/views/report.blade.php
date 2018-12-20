@@ -42,8 +42,8 @@
 
                 <div class="col-sm-10">
                     <select class="form-control" name="service" id="service">
-                        <option value="ALL"{{ old('service') === "ALL" ? ' selected ':'' }}>All services</option>
-                        <option value="NO"{{ old('service') === "NO" ? ' selected ':'' }}>No services</option>
+                        <option value="ALL"{{ old('service') === "ALL" ? ' selected ':'' }}>All subscribers</option>
+                        <option value="NO"{{ old('service') === "NO" ? ' selected ':'' }}>Unsubscribed Users</option>
 
                         @foreach(\Vas\Service::all() as $service)
                             <option {{  old('service') === "$service->id" ? 'selected ':'' }}
