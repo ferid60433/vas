@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.app', ['title' => 'Report of ' . date('Y-m-d h:i:s') . '.pdf'])
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker3.min.css') }}">
@@ -28,10 +28,11 @@
                 <label for="from" class="col-sm-2 form-control-label">Date Range</label>
 
                 <div class="col-sm-10 input-daterange input-group" id="datepicker">
-                    <input type="text" class="input-sm form-control" name="from" value="{{ old('from', '') }}"
+                    <input type="text" class="input-sm form-control" name="from"
+                           value="{{ old('from') ?? date('m/d/Y') }}"
                            autocomplete="off"/>
                     &nbsp; &nbsp; &nbsp; <span class="input-group-addon">to</span> &nbsp; &nbsp; &nbsp;
-                    <input type="text" class="input-sm form-control" name="to" value="{{ old('to', '') }}"
+                    <input type="text" class="input-sm form-control" name="to" value="{{ old('to') ?? date('m/d/Y') }}"
                            autocomplete="off"/>
                 </div>
             </div>
@@ -41,18 +42,21 @@
 
                 <div class="col-sm-10">
                     <select class="form-control" name="service" id="service">
-                        <option value="">No service</option>
+                        <option value="ALL"{{ old('service') === "ALL" ? ' selected ':'' }}>All services</option>
+                        <option value="NO"{{ old('service') === "NO" ? ' selected ':'' }}>No services</option>
 
                         @foreach(\Vas\Service::all() as $service)
-                            <option {{  old('service') === $service->id ? 'selected ':'' }}
+                            <option {{  old('service') === "$service->id" ? 'selected ':'' }}
                                     value="{{ $service->id }}">
                                 {{ $service->code }}
                             </option>
                         @endforeach
 
-                        <option {{  old('service') === '__CENT__' ? 'selected ':'' }}
-                                value="__CENT__"> CENT
-                        </option>
+                        @if (env('CENT_URL'))
+                            <option {{  old('service') === '__CENT__' ? 'selected ':'' }}
+                                    value="__CENT__"> CENT
+                            </option>
+                        @endif
                     </select>
                 </div>
             </div>
@@ -66,7 +70,7 @@
 
                     &nbsp; &nbsp; &nbsp;
 
-                    <a class="btn btn-dark"
+                    <a class="btn btn-dark" target="_blank"
                        href="{{ \Illuminate\Support\Facades\Request::fullUrlWithQuery(['print'=>true]) }}">
                         <i class="fa fa-print"></i> Print</a>
                 </div>

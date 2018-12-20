@@ -13,7 +13,12 @@
         }
     </style>
 </head>
-<body>
-    @include('layout._report')
+<body onload="printMe()">
+@include('layout._report')
+<script>
+    function printMe() {
+        window.print();
+    }
+</script>
 </body>
 </html>

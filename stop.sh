@@ -1,7 +1,15 @@
-pkill bearbox
-pkill bearbox
+#!/usr/bin/env bash
 
 pkill smsbox
+pkill bearbox
+
+pkill bearbox
+pkill smsbox
+
+pkill bearbox
+pkill smsbox
+
+pkill bearbox
 pkill smsbox
 
 pkill php

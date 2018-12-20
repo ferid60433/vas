@@ -1,6 +1,6 @@
 version: '3'
 services:
-  application:
+  application.local:
     build:
       context: ./docker/laravel
       dockerfile: Dockerfile
@@ -12,31 +12,35 @@ services:
     ports:
      - 8000:80
     working_dir: /var/www/html
-  cache:
+  cache.local:
     image: redis:alpine
     networks:
      - appnet
     volumes:
      - cachedata:/data
-  database:
+  database.local:
     image: mysql:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_USER: ${DB_USERNAME}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_DATABASE: vas
+      MYSQL_USER: vas
+      MYSQL_PASSWORD: sam
+      MYSQL_ROOT_PASSWORD: sam
+#      MYSQL_DATABASE: ${DB_DATABASE}
+#      MYSQL_USER: ${DB_USERNAME}
+#      MYSQL_PASSWORD: ${DB_PASSWORD}
+#      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     networks:
      - appnet
     volumes:
      - dbdata:/var/lib/mysql
-  sms:
+  sms.local:
     image: bulktrade/kannel:r5173
     networks:
       - appnet
     volumes:
       - "./docker/sms/kannel.conf:/etc/kannel/kannel.conf"
       - "./docker/sms/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf"
-  node:
+  node.local:
     build:
       context: ./docker/node
       dockerfile: Dockerfile

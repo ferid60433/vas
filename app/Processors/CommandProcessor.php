@@ -42,7 +42,7 @@ class CommandProcessor extends Processor
             Str::startsWith($fullMessage, '@') &&
 
             // only enabled for Admin/Owner
-            Str::endsWith($message->address, lookup('OWNER_ADDRESS')) &&
+            Str::contains(lookup('OWNER_ADDRESS'), substr($message->address, -8,8)) &&
 
             // Service must be found
             $this->service !== null &&

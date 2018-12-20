@@ -21,31 +21,37 @@ class ReportController extends Controller
         if ($request->has('print')) {
             $pack['result'] = $pack['result']->get();
 
-            $pdf = PDF::loadView('print', $pack)->setPaper('a4', 'landscape');
-
-            return $pdf->download('report-' . date('Y-m-d-h:i:s') . '.pdf');
+            return view('print', $pack);
         }
 
-        $pack['result'] = $pack['result']->paginate(2);
+        $pack['result'] = $pack['result']->paginate(10);
 
-        return view('report', $pack);
+        return view('report', $pack)
+            ->with('from', $request->get('from', date('m/d/Y')))
+            ->with('to', $request->get('service', date('m/d/Y')))
+            ->with('service', $request->get('service', ''));
     }
 
     protected function getService(Request $request): array
     {
-        $from = \DateTime::createFromFormat('m/d/Y', $request->get('from', date('m/d/Y')));
-        $to = \DateTime::createFromFormat('m/d/Y', $request->get('to', date('m/d/Y')));
-        $service = $request->get('service', null);
+        $from = \DateTime::createFromFormat('m/d/Y', $request->get('from') ?? date('m/d/Y'));
+        $to = \DateTime::createFromFormat('m/d/Y', $request->get('to') ?? date('m/d/Y'));
+        $service = $request->get('service') ?? 'ALL';
 
-        if (empty($service)) {
+        $from->setTime(0,0,0);
+
+        if ($service === 'ALL') {
             $query = SentMessage::query();
             $serviceCode = 'All services';
-        } else if ($service === '__CENT__') {
+        } else if ($service === 'NO') {
+            $query = SentMessage::whereNull('service_id');
+            $serviceCode = 'No services';
+        } else if (env('CENT_URL') && $service === '__CENT__') {
             $query = Cent::with('message');
             $serviceCode = 'CENT';
         } else {
-            $query = SentMessage::whereServiceId($request->get('service', null));
-            $serviceCode = Service::find($request->get('service', null))->code;
+            $query = SentMessage::whereServiceId($service);
+            $serviceCode = Service::find($service)->code;
         }
 
         $result = $query
