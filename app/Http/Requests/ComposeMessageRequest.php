@@ -19,8 +19,11 @@ class ComposeMessageRequest extends FormRequest
     public function rules()
     {
         return [
-            'services' => 'required|min:1',
-            'services.*' => 'exists:services,letter',
+            'services' => 'required_without:numbers|min:1',
+            'services.*' => 'required_without:numbers|exists:services,letter',
+
+            'numbers' => 'required_without:services',
+
             'message' => 'required|min:5',
             'isPromo' => 'sometimes|boolean',
         ];

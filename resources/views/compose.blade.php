@@ -21,12 +21,23 @@
         @endforeach
       </div>
     </div>
+
+    @if (env('NON_VAS'))
+    <div class="form-group row">
+      <label for="numbers" class="col-sm-2 form-control-label">Numbers</label>
+      <div class="col-sm-10">
+          <input id="numbers" type="text" class="form-control" name="numbers" placeholder="Comma separated list of mobile numbers (optional)">
+      </div>
+    </div>
+    @endif
+
     <div id="app" class="form-group row">
       <label for="message" class="col-sm-2 form-control-label">Message</label>
       <div class="col-sm-10">
         <message-textarea name="message"></message-textarea>
       </div>
     </div>
+    @if (!env('NON_VAS'))
     <div class="form-group row">
       <label for="isPromo" class="col-sm-2 form-control-label">Promotion</label>
       <div class="col-sm-10">
@@ -35,6 +46,7 @@
         </div>
       </div>
     </div>
+    @endif
     <div class="form-group row">
       <label for="inputPassword3" class="col-sm-2 form-control-label"></label>
       <div class="col-sm-10">
