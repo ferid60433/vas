@@ -19,6 +19,7 @@ class ProcessorServiceProvider extends ServiceProvider
                 \Vas\Processors\StopProcessor::class,
                 \Vas\Processors\EmptyProcessor::class,
                 \Vas\Processors\HelpProcessor::class,
+                \Vas\Processors\CommandProcessor::class,
                 \Vas\Processors\UniqueServiceProcessor::class,
             ]);
         } else {
