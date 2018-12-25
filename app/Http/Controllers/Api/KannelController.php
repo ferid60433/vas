@@ -20,7 +20,7 @@ class KannelController extends Controller
      */
     public function received(Kannel\ReceivedRequest $request, Processor $processor, LoggerInterface $logger)
     {
-        $logger->critical('charset', $request->all());
+        $logger->critical('req:- ', [$request->all(), $request->headers]);
 
         $receivedMessage = ReceivedMessage::create([
             'address' => $request->get('from'),

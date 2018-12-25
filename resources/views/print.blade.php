@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="Andegna Systems PLC">
     <link rel="icon" href="favicon.ico">
-    <title>{{ $title or 'Home' }} | Andegna Systems</title>
+    <title>{{ $title or 'Home' }} | {{ env('APP_NAME') }}</title>
     <link rel="stylesheet" href="css/app.css">
     <style>
         th, td {

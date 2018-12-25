@@ -18,7 +18,14 @@ class SubscribersImportController extends Controller
         $service_id = $request->get('service');
         $uploadedFile = $request->file('upload');
 
-        $addresses = $this->fetchAddresses($uploadedFile);
+        $addresses = $this->fetchAddresses($uploadedFile)
+            ->unique()
+            ->diff(Subscriber::whereServiceId($service_id)->get()->pluck('address'));
+
+        if ($addresses->count() === 0) {
+            return redirect()->to('subscribers')->with('danger',
+                "No new address to import! We couldn't import the file.");
+        }
 
         $created_at = Carbon::now();
 

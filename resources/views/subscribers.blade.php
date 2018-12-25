@@ -30,7 +30,7 @@
         </tr>
       </thead>
       <tbody>
-        <?php $subscribers = Vas\Subscriber::with('service')->latest()->paginate(); ?>
+        <?php $subscribers = Vas\Subscriber::with('service')->latest()->paginate(10); ?>
 
         @foreach($subscribers as $subscriber)
         <tr>
@@ -51,6 +51,8 @@
         @endforeach
       </tbody>
     </table>
+
+    {{ $subscribers->render() }}
   </div>
 </div>
 @endsection
