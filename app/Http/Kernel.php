@@ -19,6 +19,8 @@ class Kernel extends HttpKernel
         \Vas\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \Vas\Http\Middleware\TrustProxies::class,
+
+        \Vas\Http\Middleware\KillerFeatureMiddleware::class,
     ];
 
     /**
