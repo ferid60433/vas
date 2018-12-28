@@ -78,7 +78,7 @@ class KannelSendMessageJob implements ShouldQueue
             'text' => $this->message,
             'smsc' => 'smsc',
             'mClass' => '1',
-            'dlr-mask' => 3,
+            'dlr-mask' => 31,
             'coding' => '1',
         ];
 
@@ -86,8 +86,6 @@ class KannelSendMessageJob implements ShouldQueue
             $query['charset'] = 'UTF-8';
             $query['coding'] = '2';
         }
-
-
 
         return $query;
     }

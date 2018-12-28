@@ -28,7 +28,7 @@ class KannelResponsable implements Responsable
         $r = \response($this->message->message)
             ->header('X-Kannel-SMSC', 'smsc')
             ->header('X-Kannel-From', env('MO'))
-            ->header('X-Kannel-DLR-Mask', '3')
+            ->header('X-Kannel-DLR-Mask', '31')
             ->header('X-Kannel-DLR-Url', $this->generateDlrUrl());
 
         if ($this->isMessageUnicode()) {

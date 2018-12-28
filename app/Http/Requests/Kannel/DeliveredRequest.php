@@ -8,7 +8,7 @@ class DeliveredRequest extends Request
     {
         return [
             'id' => 'required|integer|exists:sent_messages,id',
-            'status' => 'required|integer|in:0,1,2',
+            'status' => 'required|integer|in:0,1,2,4,8,16',
         ];
     }
 

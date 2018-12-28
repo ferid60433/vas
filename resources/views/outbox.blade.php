@@ -28,7 +28,7 @@
         <?php $outbox = Vas\SentMessage::latest()->paginate(); ?>
 
         @foreach($outbox as $message)
-            <tr class="{{ $message->delivery_status === 1? 'table-success' : '' }}">
+            <tr class="table-{{ $message->delivery_status_color }}">
           <td>{{ $message->id }}</td>
           <td>
               <code class="white-space-nowrap">+{{ $message->full_address }}</code><br />

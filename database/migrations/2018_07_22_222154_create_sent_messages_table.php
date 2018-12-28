@@ -19,7 +19,7 @@ class CreateSentMessagesTable extends Migration
             $table->unsignedInteger('service_id')->nullable();
             $table->string('address', 8);
             $table->string('message', 1024);
-            $table->smallInteger('delivery_status')->default(0);
+            $table->tinyInteger('delivery_status')->default(0);
 
             $table->timestamps();
 

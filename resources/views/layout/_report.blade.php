@@ -26,7 +26,7 @@
             </thead>
             <tbody>
             @foreach($result as $r)
-                <tr class="{{ $r->delivery_status ?? true ? 'table-success':'table-info' }}">
+                <tr class="table-{{ $r->delivery_status_color }}">
                     <th scope="row">
                         {{ $r->id }}
                         @if ($r->response)
@@ -43,7 +43,7 @@
                             <em class="text-muted">{{ $r->message }}</em>
                         @endif
                     </td>
-                    <td>{{ $r->delivery_status ?? true ? 'Delivered' : 'Pending' }}</td>
+                    <td>{{ $r->delivery_status_string }}</td>
                     <td>{!! nl2br(e($r->created_at->format("D, jS Y\nh:i:s a")))  !!}</td>
                 </tr>
             @endforeach
