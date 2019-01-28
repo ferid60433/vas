@@ -79,7 +79,7 @@ class KannelSendMessageJob implements ShouldQueue
             'smsc' => 'smsc',
             'mClass' => '1',
             'dlr-mask' => 31,
-            'coding' => '1',
+            //'coding' => '1', // Tele Kale ale new
         ];
 
         if ($this->isUnicode()) {
