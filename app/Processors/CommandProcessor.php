@@ -20,7 +20,7 @@ class CommandProcessor extends Processor
         try {
             $fullMessage = $this->trimThenUpper($message->message);
 
-            $this->service = Service::lookupService(Str::after(Str::before($fullMessage, ','), '@'));
+            $this->service = Service::lookupService(Str::after(Str::before($fullMessage, ','), env('COMMAND_CHAR')));
 
             $this->broadcast = Str::after($fullMessage, ',');
 
@@ -43,7 +43,7 @@ class CommandProcessor extends Processor
     {
         return
             // command starter
-            Str::startsWith($fullMessage, '@') &&
+            Str::startsWith($fullMessage, env('COMMAND_CHAR')) &&
 
             // only enabled for Admin/Owner
             Str::contains(lookup('OWNER_ADDRESS'), substr($message->address, -8, 8)) &&
