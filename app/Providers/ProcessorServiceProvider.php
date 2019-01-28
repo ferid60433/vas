@@ -17,7 +17,6 @@ class ProcessorServiceProvider extends ServiceProvider
         if (env('UNIQUE_SERVICE')) {
             $processors = collect([
                 \Vas\Processors\StopProcessor::class,
-                \Vas\Processors\EmptyProcessor::class,
                 \Vas\Processors\HelpProcessor::class,
                 \Vas\Processors\CommandProcessor::class,
                 \Vas\Processors\UniqueServiceProcessor::class,
@@ -25,12 +24,12 @@ class ProcessorServiceProvider extends ServiceProvider
         } else {
             $processors = collect([
                 \Vas\Processors\StopProcessor::class,
-                \Vas\Processors\CentProcessor::class,
-//            \Vas\Processors\MoMessagesProcessor::class,
-                \Vas\Processors\EmptyProcessor::class,
+//                \Vas\Processors\CentProcessor::class,
+//                \Vas\Processors\MoMessagesProcessor::class,
                 \Vas\Processors\HelpProcessor::class,
-                \Vas\Processors\SubscriberProcessor::class,
                 \Vas\Processors\CommandProcessor::class,
+                \Vas\Processors\EmptyProcessor::class,
+                \Vas\Processors\SubscriberProcessor::class,
                 \Vas\Processors\DefaultProcessor::class,
             ]);
         }
