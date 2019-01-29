@@ -23,11 +23,10 @@ class ComposeMessageController extends Controller
                 });
         }
 
-        KannelSendMessageJob::dispatchNow(
-            $request->get('message'),
-            $addresses,
-            $request->has('isPromo')
-        );
+        KannelSendMessageJob::dispatch(
+                $request->get('message'), $addresses,
+                $request->has('isPromo')
+        )->delay(now()->addSecond(3));
 
         return redirect()->to('/')->with('success', 'Message is getting broadcasted!');
     }
