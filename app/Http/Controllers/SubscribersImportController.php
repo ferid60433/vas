@@ -63,7 +63,7 @@ class SubscribersImportController extends Controller
                 return $item['Address'];
             })
             ->map(function ($element) {
-                $strip = str_replace([' ', '+', '-'], '', $element);
+                $strip = str_replace([' ', '+', '-', '(', ')'], '', $element);
 
                 return substr($strip, -8);
             });
