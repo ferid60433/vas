@@ -10,7 +10,7 @@
     <title>{{ $title or 'Home' }} | {{ env('APP_NAME') }}</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link href="{{ asset('css/font-awesome.min.css.css') }}" rel="stylesheet" />
     @yield('style')
   </head>
   <body>
@@ -59,7 +59,7 @@
     </div>
 
     <script src="{{ mix('js/app.js') }}"></script>
-    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+    <script src="{{ asset('js/feather.min.js') }}"></script>
     <script>
       feather.replace()
     </script>
