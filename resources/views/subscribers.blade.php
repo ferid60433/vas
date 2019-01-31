@@ -30,7 +30,7 @@
         </tr>
       </thead>
       <tbody>
-        <?php $subscribers = Vas\Subscriber::with('service')->latest()->paginate(10); ?>
+        <?php $subscribers = Vas\Subscriber::with('service')->orderBy('id', 'desc')->paginate(10); ?>
 
         @foreach($subscribers as $subscriber)
         <tr>

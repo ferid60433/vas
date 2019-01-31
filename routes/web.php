@@ -84,3 +84,17 @@ Route::any('settings/{setting}', function (Vas\Lookup $setting, Request $request
 
 // report
 Route::get('report', 'ReportController@filter');
+
+
+Route::get('conversation', function(Request $request) {
+    $address = substr($request->number, -8, 8);
+    
+    $services = Vas\Subscriber::with('service')->whereAddress($address)->get();
+    
+    $sent = Vas\SentMessage::whereAddress($address)->get();
+    $resv = Vas\ReceivedMessage::whereAddress($address)->get();
+    
+    $messages = collect([$sent, $resv])->flatten()->sortByDesc('created_at');
+
+    return view('conversation', compact('address', 'services', 'messages'));
+});

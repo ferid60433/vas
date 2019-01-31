@@ -12,14 +12,15 @@ class ComposeMessageController extends Controller
     {
         try {
             $services = Service::with('subscribers')->whereIn('letter', $request->get('services'))->get();
-            $addresses = $services->pluck('subscribers')->flatten()->pluck('address');
+            $addresses = $services->pluck('subscribers')->flatten()->pluck('service_id', 'address');
         } catch (\Exception $e) {
             $addresses = collect(explode(',', $request->get('numbers', '')))
                 ->map(function ($elem) {
                     return substr($elem, -8, 8);
-                })
-                ->filter(function ($elem) {
+                })->filter(function ($elem) {
                     return strlen($elem) === 8;
+                })->mapWithKeys(function ($item) {
+                    return [$item=>null];
                 });
         }
 

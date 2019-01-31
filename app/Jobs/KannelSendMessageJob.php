@@ -49,10 +49,11 @@ class KannelSendMessageJob implements ShouldQueue
     {
         $defaults = $this->defaults();
 
-        $this->addresses->map(function ($address) use ($client, $defaults) {
+        $this->addresses->map(function ($service_id, $address) use ($client, $defaults) {
             $sentMessage = \Vas\SentMessage::create([
                 'address' => $address,
                 'message' => $this->message,
+                'service_id' => $service_id ?? null
             ]);
 
             $instance = [
