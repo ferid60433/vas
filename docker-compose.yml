@@ -2,13 +2,13 @@ version: '3'
 services:
   application:
     build:
-      context: ./docker/laravel
+      context: /ma~data/vas/docker/laravel
       dockerfile: Dockerfile
     image: andegna/vas-laravel:latest
     networks:
      - appnet
     volumes:
-     - .:/var/www/html
+     - /ma~data/vas:/var/www/html
     ports:
      - 8000:80
     restart: always
@@ -38,19 +38,8 @@ services:
       - appnet
     restart: always
     volumes:
-      - "./docker/sms/kannel.conf:/etc/kannel/kannel.conf"
-      - "./docker/sms/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf"
-  node:
-    build:
-      context: ./docker/node
-      dockerfile: Dockerfile
-    image: andegna/vas-node:latest
-    networks:
-     - appnet
-    volumes:
-     - .:/opt
-    working_dir: /opt
-    command: echo hi
+      - "/ma~data/vas/docker/sms/kannel.conf:/etc/kannel/kannel.conf"
+      - "/ma~data/vas/docker/sms/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf"
 networks:
   appnet:
     driver: bridge
