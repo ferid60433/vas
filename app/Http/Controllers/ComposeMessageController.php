@@ -11,9 +11,20 @@ class ComposeMessageController extends Controller
     public function __invoke(ComposeMessageRequest $request)
     {
         try {
-            $services = Service::with('subscribers')->whereIn('letter', $request->get('services'))->get();
-            $addresses = $services->pluck('subscribers')->flatten()->pluck('service_id', 'address');
+            $services = Service::with('subscribers')->whereIn('letter', $request->get('plus'))->get();
+
+            $notToList = Service::with('subscribers')
+                ->whereIn('letter', $request->get('minus'))->get()
+                ->pluck('subscribers')
+                ->flatten()
+                ->pluck('address');
+
+            $addresses = $services->pluck('subscribers')
+                ->flatten()
+                ->whereNotIn('address', $notToList)
+                ->pluck('service_id', 'address');
         } catch (\Exception $e) {
+            throw $e;
             $addresses = collect(explode(',', $request->get('numbers', '')))
                 ->map(function ($elem) {
                     return substr($elem, -8, 8);
