@@ -57,7 +57,7 @@ class CommandProcessor extends Processor
 
     public function handle(ReceivedMessage $message): string
     {
-        $addresses = $this->service->subscribers->flatten()->pluck('address');
+        $addresses = $this->service->subscribers->flatten()->pluck('service_id', 'address');
 
         KannelSendMessageJob::dispatchNow(
             Str::after($message->message, ','),
