@@ -74,6 +74,28 @@ class ChartMe
         return $delivered->sortKeys()->values();
     }
 
+    public function mtStat()
+    {
+        $lastWeek = $this->lastWeek();
+
+        $delivered = SentMessage::where('created_at', '>=', $lastWeek)
+            ->whereNotNull('service_id')->latest()->get()
+            ->groupBy(function (SentMessage $message) {
+                return $message->created_at->toDateString();
+            })
+            ->map(function ($collection) {
+                return $collection->count();
+            });
+
+        $this->lastDayDateString()->each(function ($day) use ($delivered) {
+            if (!$delivered->has($day)) {
+                $delivered->put($day, 0);
+            }
+        });
+
+        return $delivered->sortKeys()->values();
+    }
+
     public function receivedStat()
     {
         $lastWeek = $this->lastWeek();
