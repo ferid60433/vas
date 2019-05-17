@@ -52,6 +52,7 @@ class KannelSendMessageJob implements ShouldQueue
         $this->addresses->map(function ($service_id, $address) use ($client, $defaults) {
             $sentMessage = \Vas\SentMessage::create([
                 'address' => $address,
+                'from' => $this->promotion ? env('MO') : env('MT'),
                 'message' => $this->message,
                 'service_id' => $service_id ?? null
             ]);

@@ -17,11 +17,15 @@ class ChartMe
             ->values();
     }
 
-    public function sentStat()
+    public function sentStat($mt = false)
     {
         $lastWeek = $this->lastWeek();
 
-        $sent = SentMessage::where('created_at', '>', $lastWeek)->latest()->get()
+        $sent = SentMessage::where('created_at', '>', $lastWeek)
+            ->when($mt, function ($query, $role) {
+                return $query->where('from', 'like', '%'.env('MT'));
+            })
+            ->latest()->get()
             ->groupBy(function (SentMessage $message) {
                 return $message->created_at->toDateString();
             })
@@ -52,34 +56,15 @@ class ChartMe
             ->values();
     }
 
-    public function deliveredStat()
+    public function deliveredStat($mt = false)
     {
         $lastWeek = $this->lastWeek();
 
         $delivered = SentMessage::where('created_at', '>=', $lastWeek)
-            ->whereDeliveryStatus(1)->latest()->get()
-            ->groupBy(function (SentMessage $message) {
-                return $message->created_at->toDateString();
+            ->when($mt, function ($query, $role) {
+                return $query->where('from', 'like', '%'.env('MT'));
             })
-            ->map(function ($collection) {
-                return $collection->count();
-            });
-
-        $this->lastDayDateString()->each(function ($day) use ($delivered) {
-            if (!$delivered->has($day)) {
-                $delivered->put($day, 0);
-            }
-        });
-
-        return $delivered->sortKeys()->values();
-    }
-
-    public function mtStat()
-    {
-        $lastWeek = $this->lastWeek();
-
-        $delivered = SentMessage::where('created_at', '>=', $lastWeek)
-            ->whereNotNull('service_id')->latest()->get()
+            ->whereDeliveryStatus(1)->latest()->get()
             ->groupBy(function (SentMessage $message) {
                 return $message->created_at->toDateString();
             })

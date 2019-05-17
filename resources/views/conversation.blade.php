@@ -29,16 +29,20 @@
                         @foreach($messages as $message)
                             @if ($message instanceof Vas\ReceivedMessage)
                                 <div class="row">
-                                    <div class="message col-sm-10">
-                                        {!! nl2br(e($message->message)) !!}
+                                    <div class="message col-sm-8">
+                                        {!! nl2br(e($message->message)) !!} <br>
+                                        <small class="badge badge-primary">{{ $message->to }}</small>
+                                        <small>{{ $message->created_at->diffForHumans() }}</small>
                                     </div>
-                                    <div class="col-sm-2">&nbsp;</div>
+                                    <div class="col-sm-4">&nbsp;</div>
                                 </div>
                             @else
                                 <div class="row">
-                                    <div class="col-sm-2">&nbsp;</div>
-                                    <div class="message col-sm-10 text-right">
+                                    <div class="col-sm-4">&nbsp;</div>
+                                    <div class="message col-sm-8 text-right">
                                         {!! nl2br(e($message->message)) !!} <br>
+                                        <small class="badge badge-primary">{{ $message->from }}</small>
+                                        <small>{{ $message->created_at->diffForHumans() }}</small>
                                     </div>
                                 </div>
                             @endif

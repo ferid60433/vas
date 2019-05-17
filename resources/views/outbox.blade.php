@@ -29,7 +29,10 @@
 
         @foreach($outbox as $message)
             <tr class="table-{{ $message->delivery_status_color }}">
-          <td>{{ $message->id }}</td>
+          <td>
+            {{ $message->id }}
+            <span class="badge badge-primary">{{ $message->from }}</span>
+          </td>
           <td>
               <code class="white-space-nowrap">+{{ $message->full_address }}</code><br />
               @if ($message->service)

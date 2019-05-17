@@ -18,6 +18,7 @@
             <thead class="thead-light">
             <tr>
                 <th scope="col">#</th>
+                <th scope="col">From</th>
                 <th scope="col">Address</th>
                 <th scope="col">Message</th>
                 <th scope="col">Status</th>
@@ -33,6 +34,7 @@
                             <code>[{{ $r->response['transactionId'] }}</code>]
                         @endif
                     </th>
+                    <td><code>{{ $r->from }}</code></td>
                     <td><code>+2519{{ $r->address ?? $r->message->address }}</code></td>
                     <td style="width: 50%">
                         @if ($r->response)

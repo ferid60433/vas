@@ -24,11 +24,13 @@ class KannelController extends Controller
 
         $receivedMessage = ReceivedMessage::create([
             'address' => $request->get('from'),
+            'to' => $request->get('to'),
             'message' => $request->get('content') ?? '',
         ]);
 
         $sentMessage = SentMessage::create([
             'address' => $request->get('from'),
+            'from' => env('MO'),
             'message' => $processor($receivedMessage),
         ]);
 

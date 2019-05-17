@@ -29,8 +29,13 @@
 
         @foreach($inbox as $message)
         <tr>
-          <td>{{ $message->id }}</td>
-          <td><code class="white-space-nowrap">+{{ $message->full_address }}</code></td>
+          <td>
+            {{ $message->id }}
+            <span class="badge badge-primary">{{ $message->to }}</span>
+          </td>
+          <td>
+            <code class="white-space-nowrap">+{{ $message->full_address }}</code>
+          </td>
           <td>
             <small>
               {{ $message->message }}
