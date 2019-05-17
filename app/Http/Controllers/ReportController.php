@@ -48,9 +48,6 @@ class ReportController extends Controller
         } else if ($service === 'NO') {
             $query = SentMessage::whereNull('service_id');
             $serviceCode = 'No services';
-        } else if (env('CENT_URL') && $service === '__CENT__') {
-            $query = Cent::with('message');
-            $serviceCode = 'CENT';
         } else {
             $query = SentMessage::whereServiceId($service);
             $serviceCode = Service::find($service)->code;
