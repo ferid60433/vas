@@ -30,7 +30,7 @@
         @foreach($outbox as $message)
             <tr class="table-{{ $message->delivery_status_color }}">
           <td>
-            {{ $message->id }}
+            {{ $message->id }} <br>
             <span class="badge badge-primary">{{ $message->from }}</span>
           </td>
           <td>

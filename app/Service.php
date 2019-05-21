@@ -33,16 +33,20 @@ class Service extends Model
         'confirmation_message',
     ];
 
+    public static function lookupService(string $message): ?Service
+    {
+        $message = Str::upper($message);
+
+        return Service::with('subscribers')->get()
+            ->filter(function ($service) use ($message) {
+                return Str::startsWith($message, $service->letter);
+            })
+            ->first();
+    }
+
     public function setLetterAttribute($value)
     {
         $this->attributes['letter'] = Str::upper($value);
-    }
-
-    public static function lookupService(string $message): ?Service
-    {
-        $letter = explode(',', $message, 2)[0];
-
-        return Service::whereLetter($letter)->first();
     }
 
     public function subscribers()

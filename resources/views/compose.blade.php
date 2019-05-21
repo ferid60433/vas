@@ -7,13 +7,17 @@
 	<div class="col-sm-6">
   <form lpformnum="2" method="POST">
     @csrf
-	
 	  <div class="form-group row">
-      <label for="services[]" class="col-sm-2 form-control-label">Services</label>
+      <label for="plus[]" class="col-sm-2 form-control-label">Services</label>
       <div class="col-sm-10">
         <div class="container">
             <div class="row">
                 <div class="col-6">
+                    <h4>
+                        <strong class="badge badge-success">
+                            <i class="fa fa-plus-circle"></i> All
+                        </strong>
+                    </h4>
                     @foreach(Vas\Service::with('subscribers')->get() as $service)
                     <div class="form-check">
                       <label class="form-check-label text-success">
@@ -25,6 +29,11 @@
 	                @endforeach
                 </div>
                 <div class="col-6">
+                    <h4>
+                        <strong class="badge badge-danger">
+                            <i class="fa fa-minus-circle"></i> Except
+                        </strong>
+                    </h4>
                     @foreach(Vas\Service::with('subscribers')->get() as $service)
                     <div class="form-check">
                       <label class="form-check-label text-danger">
@@ -34,6 +43,24 @@
                       </label>
                     </div>
 	                @endforeach
+                </div>
+            </div> <hr>
+            <div class="row">
+                <div class="col-12">
+                    <h4>
+                        <strong class="badge badge-primary">
+                            <i class="fa fa-check-square-o"></i> Unconfirmed subscribers
+                        </strong>
+                    </h4>
+                    
+                    @foreach(Vas\Service::with('subscribers')->get() as $service)
+                        <div class="form-check">
+                      <label class="form-check-label text-primary">
+                        <input class="form-check-input" name="confirm[]" type="checkbox" value="{{ $service->letter }}">
+                          {{ $service->code }}
+                      </label>
+                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>

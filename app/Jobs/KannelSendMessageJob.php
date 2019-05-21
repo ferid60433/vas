@@ -2,6 +2,8 @@
 
 namespace Vas\Jobs;
 
+use DB;
+use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -9,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
+use Vas\SentMessage;
 use Vas\Util\GsmEncoding;
 
 class KannelSendMessageJob implements ShouldQueue
@@ -44,33 +46,43 @@ class KannelSendMessageJob implements ShouldQueue
      *
      * @param Client $client
      * @return void
+     * @throws Exception
      */
     public function handle(Client $client)
     {
-        $defaults = $this->defaults();
+        if ($this->attempts() > 3) $this->delete();
 
-        $this->addresses->map(function ($service_id, $address) use ($client, $defaults) {
-            $sentMessage = \Vas\SentMessage::create([
-                'address' => $address,
-                'from' => $this->promotion ? env('MO') : env('MT'),
-                'message' => $this->message,
-                'service_id' => $service_id ?? null
-            ]);
+        DB::beginTransaction();
 
-            $instance = [
-                'to'      => $sentMessage->full_address,
-                'dlr-url' => trim(env('APP_URL'), '/') . "/api/kannel/delivered?id={$sentMessage->id}&status=PERCENT_D",
-            ];
+        try {
+            $defaults = $this->defaults();
 
-            $client->get('http://' . env('KANNEL_HOST') . ':13013/cgi-bin/sendsms', [
-                'query' => Str::replaceLast('PERCENT_D', '%d', http_build_query($defaults + $instance)),
-            ]);
-        });
+            $this->addresses->map(function ($service_id, $address) use ($client, $defaults) {
+                $sentMessage = SentMessage::create([
+                    'address' => $address,
+                    'from' => $this->promotion ? env('MO') : env('MT'),
+                    'message' => $this->message,
+                    'service_id' => $service_id ?? null,
+                ]);
+
+                $instance = [
+                    'to' => $sentMessage->full_address,
+                    'dlr-url' => trim(env('APP_URL'),
+                            '/') . "/api/kannel/delivered?id={$sentMessage->id}&status=PERCENT_D",
+                ];
+
+                $client->get('http://' . env('KANNEL_HOST') . ':13013/cgi-bin/sendsms', [
+                    'query' => Str::replaceLast('PERCENT_D', '%d', http_build_query($defaults + $instance)),
+                ]);
+            });
+
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollback();
+            throw $exception;
+        }
     }
-
-    /**
-     * @return array
-     */
+    
     protected function defaults(): array
     {
         $query = [
@@ -92,9 +104,6 @@ class KannelSendMessageJob implements ShouldQueue
         return $query;
     }
 
-    /**
-     * @return bool
-     */
     protected function isUnicode(): bool
     {
         return !GsmEncoding::isGsm0338($this->message);

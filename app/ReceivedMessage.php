@@ -26,6 +26,7 @@ class ReceivedMessage extends Model
     protected $fillable = [
         'address',
         'message',
+        'to'
     ];
 
     protected $appends = ['full_address'];

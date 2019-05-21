@@ -33,6 +33,7 @@ class SentMessage extends Model
     protected $fillable = [
         'service_id',
         'address',
+        'from',
         'message',
         'delivery_status',
     ];

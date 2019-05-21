@@ -7,19 +7,14 @@
 	    <h1 class="h2">Dashboard</h1>
 	</div>
 	
-	<h3>Total</h3>
-	<canvas class="my-4" id="myChart" width="900" height="380"></canvas>
-	
-	<br><hr><br>
-	<h3>MT</h3>
-	<canvas class="my-4" id="mtChart" width="900" height="380"></canvas>
+	<canvas id="chart" width="900" height="380"></canvas>
 @endsection
 
 @section('script')
 	<script src="{{ asset('js/Chart.min.js') }}"></script>
 	
 	<script>
-    new Chart(document.getElementById("myChart"), {
+    new Chart('chart', {
         type: 'line',
         data: {
             labels: {!! $chart->lastDaysWeekdays() !!},
@@ -39,7 +34,7 @@
                     lineTension: 0,
                     backgroundColor: '#77F4',
                     borderColor: '#77F',
-                    borderWidth: 3,
+                    borderWidth: 2,
                     pointBackgroundColor: '#77F',
                     // legend: {
                     //     display: true,
@@ -53,47 +48,17 @@
                     lineTension: 0,
                     backgroundColor: '#F774',
                     borderColor: '#F77',
-                    borderWidth: 4,
+                    borderWidth: 2,
                     pointBackgroundColor: '#F77'
                 },
-                // {
-                //     label: 'MT Messages',
-                    {{--data: {!! $chart->mtStat() !!},--}}
-                    // lineTension: 0,
-                    // backgroundColor: '#FFFF0044',
-                    // borderColor: 'yellow',
-                    // borderWidth: 2,
-                    // pointBackgroundColor: 'yellow'
-                // }
-            ]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            },
-            legend: {
-                display: true,
-            }
-        }
-    });
-
-    new Chart(document.getElementById("mtChart"), {
-        type: 'line',
-        data: {
-            labels: {!! $chart->lastDaysWeekdays() !!},
-            datasets: [
-	            {
+                {
                     label: 'MT Sent Messages',
                     data: {!! $chart->sentStat(true) !!},
                     lineTension: 0,
-                    backgroundColor: '#77F4',
-                    borderColor: '#77F',
+                    backgroundColor: '#F4F4',
+                    borderColor: '#F4F',
                     borderWidth: 2,
-                    pointBackgroundColor: '#77F',
+                    pointBackgroundColor: '#F4F',
                     // legend: {
                     //     display: true,
                     //     position: 'top',
@@ -104,20 +69,11 @@
                     label: 'MT Delivered Messages',
                     data: {!! $chart->deliveredStat(true) !!},
                     lineTension: 0,
-                    backgroundColor: '#4F44',
-                    borderColor: '#4F4',
+                    backgroundColor: '#FF74',
+                    borderColor: '#FF7',
                     borderWidth: 3,
-                    pointBackgroundColor: '#4F4'
+                    pointBackgroundColor: '#FF7'
                 },
-                // {
-                //     label: 'MT Messages',
-			    {{--data: {!! $chart->mtStat() !!},--}}
-                // lineTension: 0,
-                // backgroundColor: '#FFFF0044',
-                // borderColor: 'yellow',
-                // borderWidth: 2,
-                // pointBackgroundColor: 'yellow'
-                // }
             ]
         },
         options: {
@@ -130,7 +86,8 @@
             },
             legend: {
                 display: true,
-            }
+                fullWidth: true,
+            },
         }
     });
     </script>

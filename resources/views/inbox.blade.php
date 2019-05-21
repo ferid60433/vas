@@ -30,7 +30,7 @@
         @foreach($inbox as $message)
         <tr>
           <td>
-            {{ $message->id }}
+            {{ $message->id }} <br>
             <span class="badge badge-primary">{{ $message->to }}</span>
           </td>
           <td>

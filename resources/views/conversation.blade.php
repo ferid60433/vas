@@ -39,7 +39,7 @@
                             @else
                                 <div class="row">
                                     <div class="col-sm-4">&nbsp;</div>
-                                    <div class="message col-sm-8 text-right">
+                                    <div class="message col-sm-8 text-right text-{{ $message->delivery_status_color }}">
                                         {!! nl2br(e($message->message)) !!} <br>
                                         <small class="badge badge-primary">{{ $message->from }}</small>
                                         <small>{{ $message->created_at->diffForHumans() }}</small>
