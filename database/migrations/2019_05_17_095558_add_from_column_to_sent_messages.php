@@ -26,7 +26,7 @@ class AddFromColumnToSentMessages extends Migration
     public function down()
     {
         Schema::table('sent_messages', function (Blueprint $table) {
-            //
+            $table->dropColumn('from');
         });
     }
 }

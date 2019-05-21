@@ -26,7 +26,7 @@ class AddToColumnToReceivedMessages extends Migration
     public function down()
     {
         Schema::table('received_messages', function (Blueprint $table) {
-            //
+            $table->dropColumn('to');
         });
     }
 }

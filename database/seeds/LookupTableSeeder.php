@@ -17,7 +17,8 @@ class LookupTableSeeder extends Seeder
         foreach ($pairs as $key => $value) {
             Lookup::updateOrCreate(
                 ['key' => $key],
-                ['value' => $value]);
+                ['value' => $value]
+            );
         }
     }
 
