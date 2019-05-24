@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Processors;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Vas\Processors\DefaultProcessor;
@@ -11,7 +12,7 @@ use Vas\ReceivedMessage;
 
 class NullProcessorTest extends TestCase
 {
-    use WithFaker;
+    use WithFaker, DatabaseTransactions;
 
     /** @var Processor */
     protected $processor;

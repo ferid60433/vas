@@ -9,14 +9,16 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 use Vas\Jobs\KannelSendMessageJob;
+use Vas\Service;
 
 class KannelSendMessageJobTest extends TestCase
 {
-    use WithFaker;
+    use WithFaker, DatabaseTransactions;
 
     /** @var array */
     protected $container;
@@ -36,17 +38,17 @@ class KannelSendMessageJobTest extends TestCase
     {
         $toCount = $this->faker->randomDigit;
         $message = $this->faker->paragraph;
-        $addresses = collect($this->getRandomAddressesArray($toCount));
+        $addresses = $this->getRandomAddressesArray($toCount, factory(Service::class, 3)->create());
 
         return array($toCount, $message, $addresses);
     }
 
-    protected function getRandomAddressesArray($count)
+    protected function getRandomAddressesArray($count, $services)
     {
-        $out = [];
+        $out = collect([]);
 
         while ($count > 0) {
-            $out[] = $this->faker->randomNumber(8, true);
+            $out->put($this->faker->randomNumber(8, true), $services->random()->id);
             $count--;
         }
 
@@ -86,11 +88,11 @@ class KannelSendMessageJobTest extends TestCase
 
             $this->assertEquals('GET', $request->getMethod());
             $this->assertEquals('http', $request->getUri()->getScheme());
-            $this->assertEquals('localhost', $request->getUri()->getHost());
+            $this->assertEquals('smsc', $request->getUri()->getHost());
             $this->assertEquals(13013, $request->getUri()->getPort());
             $this->assertEquals('/cgi-bin/sendsms', $request->getUri()->getPath());
             $this->assertTrue(Str::contains(urldecode($request->getUri()->getQuery()), $message));
-            $this->assertTrue(Str::contains(urldecode($request->getUri()->getQuery()), $addresses[$index]));
+            $this->assertTrue(Str::contains(urldecode($request->getUri()->getQuery()), $addresses->keys()[$index]));
 
             /** @var Response $response */
             $response = $guzzle['response'];
@@ -99,10 +101,10 @@ class KannelSendMessageJobTest extends TestCase
             $this->assertEquals('Bar', $response->getHeaderLine('X-PHPUnit'));
         }
 
-        for ($i = 0; $i < $toCount; $i++) {
+        foreach ($addresses as $address => $service) {
             $this->assertDatabaseHas('sent_messages', [
                 'message' => trim($message),
-                'address' => "{$addresses[$i]}",
+                'address' => "$address",
             ]);
         }
     }

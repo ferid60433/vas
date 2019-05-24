@@ -33,8 +33,6 @@ class ControllerDeliveredTest extends TestCase
         $response = $this->get(route('kannel.delivered',
             compact('id', 'status')));
 
-        app(Logger::class)->debug('Log Me', [$response]);
-
         $response->assertOk();
         $this->assertDatabaseHas('sent_messages', [
             'message' => $sentMessage->message,

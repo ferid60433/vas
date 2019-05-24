@@ -85,9 +85,9 @@ class ControllerReceivedTest extends TestCase
         $response
             ->assertOk()
             ->assertSee($reply)
-            ->assertHeader('X-Kannel-SMSC', 'mtSmsc')
+            ->assertHeader('X-Kannel-SMSC', 'smsc')
             ->assertHeader('X-Kannel-From', env('MO'))
-            ->assertHeader('X-Kannel-DLR-Mask', 3);
+            ->assertHeader('X-Kannel-DLR-Mask', 31);
 
         $this->assertDatabaseHas('received_messages', [
             'message' => trim($message),
@@ -109,7 +109,7 @@ class ControllerReceivedTest extends TestCase
         factory(Service::class)->create(['letter' => 'CMD']);
 
         $this->testGenericMessage(
-            '@CMD,Test',
+            '#CMD,Test 123456',
             'MESSAGE_OWNER_COMMAND',
             lookup('OWNER_ADDRESS'));
 

@@ -11,6 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Vas\SentMessage;
 use Vas\Util\GsmEncoding;
 
@@ -61,7 +62,7 @@ class KannelSendMessageJob implements ShouldQueue
                 $sentMessage = SentMessage::create([
                     'address' => $address,
                     'from' => $this->promotion ? env('MO') : env('MT'),
-                    'message' => $this->message,
+                    'message' => $this->getMessage(),
                     'service_id' => $service_id ?? null,
                 ]);
 
@@ -89,7 +90,7 @@ class KannelSendMessageJob implements ShouldQueue
             'user' => env('KANNEL_USER'),
             'password' => env('KANNEL_PASSWORD'),
             'from' => $this->promotion ? env('MO') : env('MT'),
-            'text' => $this->message,
+            'text' => $this->getMessage(),
             'smsc' => 'smsc',
             'mClass' => '1',
             'dlr-mask' => 31,
@@ -106,6 +107,11 @@ class KannelSendMessageJob implements ShouldQueue
 
     protected function isUnicode(): bool
     {
-        return !GsmEncoding::isGsm0338($this->message);
+        return !GsmEncoding::isGsm0338($this->getMessage());
+    }
+
+    public function getMessage(): string
+    {
+        return $this->message ?? '';
     }
 }
