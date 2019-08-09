@@ -6,32 +6,32 @@ services:
       dockerfile: Dockerfile
     image: andegna/vas-laravel:latest
     networks:
-     - appnet
+      - appnet
     volumes:
-     - /ma~data/vas:/var/www/html
+      - /ma~data/vas:/var/www/html
     ports:
-     - 8000:80
+      - 8000:80
     restart: always
     working_dir: /var/www/html
   cache:
     image: redis:alpine
     networks:
-     - appnet
+      - appnet
     restart: always
     volumes:
-     - cachedata:/data
+      - cachedata:/data
   database:
-    image: mariadb:latest
+    image: mysql:latest
+    command:
+      - "--default-authentication-plugin=mysql_native_password"
     environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USERNAME}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: vas
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     networks:
-     - appnet
+      - appnet
     restart: always
     volumes:
-     - dbdata:/var/lib/mysql
+      - dbdata:/var/lib/mysql
   smsc:
     image: bulktrade/kannel:r5173
     networks:
